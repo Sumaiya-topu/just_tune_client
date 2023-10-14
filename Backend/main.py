@@ -13,6 +13,9 @@ def generate_wav():
         text = data.get('text')
         second = data.get('second')
 
+        print('text is: ', text)
+        print('Time is: ', second)
+
         # Validate the input
         if not text:
             return "Text input is missing or invalid", 400
