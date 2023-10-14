@@ -42,11 +42,12 @@ const Home = () => {
           </div>
         </form>
       </div>
-      <div className="mt-20">
-        <h1>🎶 Your Words, Their Symphony: 🎶</h1>
+      <div className="mt-20 w-3/4 mx-auto">
+        <h1 className="text-[#ED7014] text-2xl mb-5 font-semibold ">
+          🎶 Your Words, Their Symphony: 🎶
+        </h1>
         <Table></Table>
       </div>
-      <AudioPlayer></AudioPlayer>
     </div>
   );
 };
