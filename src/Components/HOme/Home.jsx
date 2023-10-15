@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import './Home.css';
 import Table from './Table';
-import { client } from '@gradio/client';
 import axios from 'axios';
 
 const Home = () => {
@@ -14,24 +13,44 @@ const Home = () => {
   } = useForm();
 
   const handlePromptSubmit = async (data) => {
-    const app = await client('9150de897fe67d41cd.gradio.live'); // Replace with your Gradio interface URL
-    const result = await app.predict(0, [
-      data.description,
-      data.top_k,
-      data.top_p,
-      data.temperature,
-      data.duration,
-      data.cfg_coef,
-    ]);
+    // console.log(data);
+    // const app = await client('https://79c81afc71f71a32cc.gradio.live/'); // Replace with your Gradio interface URL
+   
+    const gradioData ={
+      text:data.text,
+      top_k:data.top_k,
+     top_p: data.top_p,
+      temperature:data.temperature,
+      duration:data.duration,
+      cfg_coef:data.cfg_coef,
+    }
 
-    const newData = { ...data, audio: result.data };
+    // const gradiodata2={"data":gradioData,"event_data":null,"fn_index":0,"session_hash":"xxx"};
+    console.log("gradiodata",gradioData);
+//     const config = {
+//   headers: {
+//     "Content-Type": "application/json",
+//     "Host": "79c81afc71f71a32cc.gradio.live",
+//   },
+// };
+     axios
+      .post('http://localhost:5000/generate-audio', gradioData)
+      .then((res) => {
+        console.log(res.data);
+        alert('Audio generated successfully!');
+      })
+      .catch((err) => console.log(err));
+
+    // const result = await app.predict(0, gradioData);
+
+    // const newData = { ...data, audio: result.data };
     // axios
     //   .post('http://localhost:8000/prompts', newData)
     //   .then((res) => {
     //     alert('Prompt added successfully!');
     //   })
     //   .catch((err) => console.log(err));
-    console.log(result);
+    // console.log(result);
   };
   return (
     <div className="">
@@ -49,8 +68,8 @@ const Home = () => {
             </h1>
             <form onSubmit={handleSubmit(handlePromptSubmit)} className="mt-5">
               <input
-                onChange={(e) => setInputData({ ...inputData, promptText: e.target.value })}
-                {...register('promptText')}
+                onChange={(e) => setInputData({ ...inputData, text: e.target.value })}
+                {...register('text')}
                 type="text"
                 placeholder="Low tempo with synth music"
                 className="w-full p-2 border h-20 text-white border-gray-300 rounded-md mb-4 bg-transparent"
@@ -63,8 +82,8 @@ const Home = () => {
                     Top_k
                   </label>
                   <input
-                    onChange={(e) => setInputData({ ...inputData, promptText: e.target.value })}
-                    {...register('top-k')}
+                    onChange={(e) => setInputData({ ...inputData,top_k: e.target.value })}
+                    {...register('top_k')}
                     type="text"
                     className="w-full p-2 border text-white border-gray-300 rounded-md mb-4 bg-transparent"
                   />
@@ -77,51 +96,62 @@ const Home = () => {
                     Top_p
                   </label>
                   <input
-                    onChange={(e) => setInputData({ ...inputData, promptText: e.target.value })}
-                    {...register('top-p')}
+                    onChange={(e) => setInputData({ ...inputData,top_p: e.target.value })}
+                    {...register('top_p')}
                     type="text"
                     className="w-full p-2 border text-white border-gray-300 rounded-md mb-4 bg-transparent"
                   />
                   {errors.age && <p>Please enter number for age.</p>}
                 </div>
+                 <div>
+                  <label htmlFor="" className="text-white">
+                    Temperature
+                  </label>
+                  <input
+                    onChange={(e) => setInputData({ ...inputData, temperature: e.target.value })}
+                    {...register('temperature')}
+                    type="text"
+                    className="w-full p-2 border text-white border-gray-300 rounded-md mb-4 bg-transparent"
+                  />
+                </div>
               </div>
-              <div className="flex gap-1">
+              <div className="flex items-center gap-1">
                 <div>
                   <label htmlFor="" className="text-white">
                     Duration
                   </label>
                   <input
-                    onChange={(e) => setInputData({ ...inputData, promptText: e.target.value })}
+                    onChange={(e) => setInputData({ ...inputData, duration: e.target.value })}
                     {...register('duration')}
                     type="text"
                     className="w-full p-2 border text-white border-gray-300 rounded-md mb-4 bg-transparent"
                   />
                 </div>
-
                 {errors.age && <p>Please enter number for age.</p>}
                 <div>
                   {' '}
                   <label htmlFor="" className="text-white">
-                    Cfg-co
+                    Cfg-coef
                   </label>
                   <input
-                    onChange={(e) => setInputData({ ...inputData, promptText: e.target.value })}
-                    {...register('cfgco')}
+                    onChange={(e) => setInputData({ ...inputData, cfg_coef: e.target.value })}
+                    {...register('cfg_coef')}
                     type="text"
                     className="w-full p-2 border text-white border-gray-300 rounded-md mb-4 bg-transparent"
                   />
                   {errors.age && <p>Please enter number for age.</p>}
                 </div>
-              </div>
-
-              {errors.age && <p>Please enter number for age.</p>}
-              <div className="flex justify-center">
+                 <div className=" w-full bg-[#ED7014] rounded-lg flex justify-center">
                 <input
                   type="submit"
-                  className="text-white bg-[#ED7014] rounded-lg block px-10 py-2"
+                  className="text-white  block px-10 py-2 "
                   value="Generate Tune"
                 />
               </div>
+              </div>
+
+              {errors.age && <p>Please enter number for age.</p>}
+             
             </form>
           </div>
         </div>
