@@ -1,0 +1,7 @@
+.home {
+  background: linear-gradient(to left, rgba(0, 0, 0, 0.752), rgba(9, 9, 9, 0)),
+    url('/aiImageBg.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
