@@ -1,16 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import "./Home.css";
 import Table from "./Table";
 import AudioPlayer from "./AudioPlayer";
+// import { client } from "@gradio/client";
+import axios from "axios";
 const Home = () => {
+  const [inputData, setInputData] = useState({ promptText: "" });
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const handlePromptSubmit = (data) => {
+  const handlePromptSubmit = async (data) => {
+    // const app = await client("https://6969c6492bec4f017d.gradio.live/"); // Replace with your Gradio interface URL
+    // const result = await app.predict(0, [
+    //   data.description,
+    //   data.top_k,
+    //   data.top_p,
+    //   data.temperature,
+    //   data.duration,
+    //   data.cfg_coef,
+    // ]);
+
+    // Send the result to JSON Server
+    // const response = await fetch("http://localhost:3000/results", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify({ audio_url: result.data }),
+    // });
+
+    // if (response.ok) {
+    // Handle a successful response (e.g., show a success message)
+    // } else {
+    // Handle errors
+    // }
+    axios
+      .post("http://localhost:8000/prompts", data)
+      .then((res) => {
+        alert("Prompt added successfully!");
+      })
+      .catch((err) => console.log(err));
     console.log(data);
   };
   return (
@@ -27,7 +60,10 @@ const Home = () => {
           className=" w-1/2 mx-auto"
         >
           <input
-            {...register("prompt")}
+            onChange={(e) =>
+              setInputData({ ...inputData, promptText: e.target.value })
+            }
+            {...register("promptText")}
             type="text"
             className="w-full p-2 border h-20 border-gray-300 rounded-md mb-4 bg-transparent"
           />

@@ -1,0 +1,27 @@
+{
+  "prompts": [
+    {
+      "id": 1,
+      "inputText": "azz funk based medium tempo (80 BPM) instrumental with keyboard intense rhythm with constant rhythm changes enhancing the funk genre.",
+      "audio": "../src/assets/audios/Aurthohin_Apitaf.mp3"
+    },
+    {
+      "id": 2,
+      "inputText": "azz funk based medium tempo (80 BPM) instrumental with keyboard intense rhythm with constant rhythm changes enhancing the funk genre.",
+      "audio": "../src/assets/audios/Aurthohin_Nikkristo_2.mp3"
+    },
+    {
+      "id": 3,
+      "inputText": "azz funk based medium tempo (80 BPM) instrumental with keyboard intense rhythm with constant rhythm changes enhancing the funk genre.",
+      "audio": "../src/assets/audios/Artcell_Dukkho_Bilash.mp3"
+    },
+    {
+      "promptText": "",
+      "id": 4
+    },
+    {
+      "promptText": "Test audio",
+      "id": 5
+    }
+  ]
+}
