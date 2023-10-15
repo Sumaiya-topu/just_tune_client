@@ -30,14 +30,26 @@ def generate_audio():
         if not description or not isinstance(duration, (int, float)):
             return "Invalid input parameters", 400
 
-        # Process the input parameters as needed (you can generate audio based on these parameters)
-
+        # Process the input parameters and generate audio (placeholder logic)
         # For demonstration purposes, let's assume you have a pre-existing "dummy.wav" file
         audio_file_path = 'audio/1.wav'
 
         # Check if the file exists
         if not os.path.isfile(audio_file_path):
             return "Audio file not found", 404
+
+        # Calculate dummy frequency statistics (placeholder values)
+        min_frequency = 20
+        max_frequency = 20000
+        avg_frequency = 440  # Placeholder value for A4, adjust as needed
+
+        # Create a response JSON object
+        response_data = {
+            "min_frequency": min_frequency,
+            "max_frequency": max_frequency,
+            "avg_frequency": avg_frequency,
+            "description": description
+        }
 
         # Read the binary data from the audio file
         with open(audio_file_path, 'rb') as audio_file:
@@ -49,38 +61,11 @@ def generate_audio():
             'Content-Disposition': 'attachment; filename=generated.wav'
         }
 
-        return Response(audio_binary, headers=headers, status=200)
-
-    except Exception as e:
-        return str(e), 400
-
-@app.route('/api/get_response_data', methods=['POST'])
-def get_response_data():
-    try:
-        # Get the JSON data from the request body
-        data = request.json
-
-        # Extract input parameters
-        id = data.get('id')
-
-        # Check if the provided ID exists in the generated_ids dictionary
-        if id in generated_ids:
-            # Process the input parameters and generate response data
-            response_data = {
-                'id': id,
-                'min_frequency': 50,
-                'max_frequency': 2000,
-                'avg_frequency': 500
-            }
-
-            # Return response data
-            return jsonify(response_data), 200
-        else:
-            return "Invalid ID", 400
+        # Return the audio file and the JSON object
+        return (Response(audio_binary, headers=headers, status=200), jsonify(response_data))
 
     except Exception as e:
         return str(e), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
-
