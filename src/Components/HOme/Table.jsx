@@ -11,6 +11,7 @@ const AudioPlayer = () => {
     fetch(' http://localhost:5000/audio-data')
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setAudioData(data);
       });
   }, [audioData]);
@@ -30,7 +31,7 @@ const AudioPlayer = () => {
               </Typography>
 
               <audio controls className="w-full mt-4">
-                <source src={audioURL} type="audio/mpeg" />
+                <source src={`http://localhost:5000${audioURL}`} type="audio/mpeg" />
                 Your browser does not support the audio element.
               </audio>
             </div>
